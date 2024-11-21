@@ -160,5 +160,23 @@ class DatabaseService {
   }
 
   // Update
+
   // Delete
+  Future<void> deleteBand(int id) async {
+    if (_database case var database?) {
+      await database.delete('bands', where: 'id = ?', whereArgs: [id]);
+    }
+  }
+
+  Future<void> deleteMember(int id) async {
+    if (_database case var database?) {
+      await database.delete('members', where: 'id = ?', whereArgs: [id]);
+    }
+  }
+
+  Future<void> deleteSong(int id) async {
+    if (_database case var database?) {
+      await database.delete('songs', where: 'id = ?', whereArgs: [id]);
+    }
+  }
 }

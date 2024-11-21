@@ -1,4 +1,5 @@
 import 'package:band_management/state/app_state.dart';
+import 'package:band_management/util/confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watch_it/watch_it.dart';
@@ -30,11 +31,28 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         for (final band in di<AppState>().bands)
-                          ListTile(
-                            title: Text(band.name),
-                            onTap: () {
-                              context.go('/home/band/${band.id}');
+                          Dismissible(
+                            key: ValueKey("#BAND_${band.id}"),
+                            onDismissed: (_) {
+                              di<AppState>().deleteBand(band.id);
                             },
+                            child: ListTile(
+                              title: Text(band.name),
+                              onTap: () {
+                                context.go('/home/band/${band.id}');
+                              },
+                              trailing: IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () => showConfirmationDialog(
+                                  context: context,
+                                  title: "Delete '${band.name}'",
+                                  body: "Are you sure you want to delete '${band.name}'",
+                                  onConfirm: () {
+                                    di<AppState>().deleteBand(band.id);
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
                       ],
                     ),

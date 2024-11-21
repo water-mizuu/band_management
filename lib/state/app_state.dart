@@ -121,4 +121,22 @@ class AppState extends ChangeNotifier {
   // Update Methods
 
   // Delete Methods
+
+  Future<void> deleteBand(int id) async {
+    await databaseService.deleteBand(id);
+    bands.removeWhere((s) => s.id == id);
+    notifyListeners();
+  }
+
+  Future<void> deleteMember(int id) async {
+    await databaseService.deleteMember(id);
+    members.removeWhere((s) => s.id == id);
+    notifyListeners();
+  }
+
+  Future<void> deleteSong(int id) async {
+    await databaseService.deleteSong(id);
+    songs.removeWhere((s) => s.id == id);
+    notifyListeners();
+  }
 }
